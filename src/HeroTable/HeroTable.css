@@ -23,6 +23,11 @@
   border-right: 0;
 }
 
+.HeroTable th:hover{
+    color: blue;
+    cursor: pointer;
+}
+
 .HeroTable__remove{
     cursor: pointer;
     color: red;

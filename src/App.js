@@ -6,7 +6,13 @@ import InputHero from './InputHero/InputHero.js';
 class App extends Component {
     constructor(props){
         super(props);
-        this.state = {Heroes: [{id: 0, name: "Некто", status : "отправился нахер", visible:true}, {id: 1, name: "Jopa", status: "неизвестно", visible:true}, {id: 2, name: "Jopa2", status: "неизвестно2", visible:true}]}
+        this.state = {Heroes: [
+            {id: 0, name: "Некто", status : "отправился нахер", visible:true},
+            {id: 1, name: "Jopa", status: "неизвестно", visible:true},
+            {id: 2, name: "Jopa2", status: "неизвестно2", visible:true},
+            {id: 3, name: "A", status: "b", visible:true},
+            {id: 4, name: "B", status: "c", visible:true}
+        ]}
         console.log(this.state.Heroes);
     }
 
@@ -51,11 +57,42 @@ class App extends Component {
         this.searchHeroes()
     }
 
+    sort(fieldName){
+        let first,last;
+        if (this.state.Heroes.length > 1){
+            first = this.state.Heroes[0][fieldName];
+            last = this.state.Heroes[this.state.Heroes.length - 1][fieldName];
+
+            //если поле первого элемента БОЛЬШЕ поля последнего элемента
+            if (first > last){
+                console.log(">");
+                //сортировка по возрастанию
+                let oldHeroes = this.state.Heroes;
+
+                oldHeroes.sort((item1,item2) => {
+                    return item1[fieldName] > item2[fieldName];
+                })
+            }
+            //иначе если поле первого МЕНЬШЕ поля последнего элемента
+            else if (first < last){
+                console.log("<");
+                //сортировка по убыванию
+                this.state.Heroes.sort((item1,item2) => {
+                    return item1[fieldName] < item2[fieldName];
+                })
+            }
+
+
+             this.setState(this.state);
+        }
+
+
+
+
+    }
+
     searchHeroes(searchPhrase){
         console.log(this.state.Heroes);
-        let currState
-
-
         if (searchPhrase ==  "")
             this.setState({
                 Heroes: this.state.Heroes.map( item => ({...item, visible:true}) )
@@ -69,7 +106,7 @@ class App extends Component {
                         return {...item, visible:true}
 
                     return {...item, visible:false}
-                } )
+                })
             })
         }
 
@@ -78,9 +115,17 @@ class App extends Component {
   render() {
     return (
         <div className="App">
-            <span>{this.state.test}</span>
-            <InputHero  searchHeroes={(searchPhrase) => this.searchHeroes.call(this, searchPhrase)} addHero={(name) => this.add.call(this,name)}></InputHero>
-            <HeroTable heroesList={this.state.Heroes} heroRemove={(id) => this.remove.bind(this,id)}></HeroTable>
+
+            <InputHero
+                searchHeroes={(searchPhrase) => this.searchHeroes.call(this, searchPhrase)}
+                addHero={(name) => this.add.call(this,name)}>
+            </InputHero>
+
+            <HeroTable heroesSort={(fieldName) => this.sort.bind(this,fieldName)}
+                       heroesList={this.state.Heroes}
+                       heroRemove={(id) => this.remove.bind(this,id)}>
+            </HeroTable>
+
         </div>
     );
   }

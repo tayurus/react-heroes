@@ -7,8 +7,8 @@ import './HeroTable.css';
             <table cellPadding="10" className="HeroTable">
                 <tbody>
                     <tr>
-                        <th>Имя</th>
-                        <th>Статус</th>
+                        <th onClick={this.props.heroesSort("name")}>Имя</th>
+                        <th onClick={this.props.heroesSort("status")}>Статус</th>
                     </tr>
                     {this.props.heroesList.map((hero) => {
                         if (hero.visible)
