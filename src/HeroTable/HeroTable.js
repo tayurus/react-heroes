@@ -11,18 +11,19 @@ import './HeroTable.css';
                         <th>Статус</th>
                     </tr>
                     {this.props.heroesList.map((hero) => {
-                        return (
-                        <tr>
-                            <td>
-                                {hero.name}
-                            </td>
-                            <td>
-                                {hero.status}
-                            </td>
-                            <td className="HeroTable__remove" title={"Удалить пидора " + hero.name + " нахуй"}>
-                                Х
-                            </td>
-                        </tr>)
+                        if (hero.visible)
+                            return (
+                            <tr>
+                                <td>
+                                    {hero.name}
+                                </td>
+                                <td>
+                                    {hero.status}
+                                </td>
+                                <td className="HeroTable__remove" title={"Удалить " + hero.name} onClick={this.props.heroRemove(hero.id)}>
+                                    Х
+                                </td>
+                            </tr>)
                     })}
                 </tbody>
             </table>
